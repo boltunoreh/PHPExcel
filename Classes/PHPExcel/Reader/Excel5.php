@@ -640,7 +640,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
         // initialize
         $this->pos                 = 0;
-        $this->codepage            = 'CP1252';
+        $this->codepage            = $this->codepage == null ? 'CP1252' : $this->codepage;
         $this->formats             = array();
         $this->objFonts            = array();
         $this->palette             = array();
@@ -1328,7 +1328,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $countProperties = self::getInt4d($this->summaryInformation, $secOffset+4);
 
         // initialize code page (used to resolve string values)
-        $codePage = 'CP1252';
+        $codePage = $this->codepage == null ? 'CP1252' : $this->codepage;
 
         // offset: ($secOffset+8); size: var
         // loop through property decarations and properties
@@ -1467,7 +1467,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 //        echo '$countProperties = ', $countProperties,'<br />';
 
         // initialize code page (used to resolve string values)
-        $codePage = 'CP1252';
+        $codePage = $this->codepage == null ? 'CP1252' : $this->codepage;
 
         //    offset: ($secOffset+8);    size: var
         //    loop through property decarations and properties
@@ -7590,5 +7590,13 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
         $value->createText($is);
 
         return $value;
+    }
+
+    /**
+     * @param string $codepage
+     */
+    public function setCodepage($codepage)
+    {
+        $this->codepage = $codepage;
     }
 }
